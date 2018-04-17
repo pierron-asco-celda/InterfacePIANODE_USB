@@ -75,7 +75,9 @@ Public Class main
     Private Sub Add_DGV_datas(dict As Object)
         Dim colonne As DataGridViewTextBoxColumn
         'Ajout de la date
-        dict.add("date", Date.Now)
+        If Not dict.ContainsValue("date") Then
+            dict.add("date", Date.Now)
+        End If
         'Ajout des colonnes manquantes
         For Each pair In dict
             If Not DGV_datas.Columns.Contains(pair.key) Then
@@ -90,7 +92,12 @@ Public Class main
         For Each pair In dict
             row(DGV_datas.Columns.Item(pair.key).index) = pair.value
         Next
-        DGV_datas.Rows.Add(row)
+        DGV_datas.Rows.Insert(0, row)
+
+        'Si trop de donnée (max_value), supression des données en trop
+        While DGV_datas.Rows.Count > Convert.ToInt32(TB_max_values.Text)
+            DGV_datas.Rows.RemoveAt(DGV_datas.Rows.Count - 1)
+        End While
     End Sub
 
     ''' <summary>
