@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class main
     Inherits System.Windows.Forms.Form
 
     'Form remplace la méthode Dispose pour nettoyer la liste des composants.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class main
     'REMARQUE : la procédure suivante est requise par le Concepteur Windows Form
     'Elle peut être modifiée à l'aide du Concepteur Windows Form.  
     'Ne la modifiez pas à l'aide de l'éditeur de code.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.SerialPort = New System.IO.Ports.SerialPort(Me.components)
@@ -131,17 +131,24 @@ Partial Class main
         '
         'DGV_datas
         '
+        Me.DGV_datas.AllowUserToOrderColumns = True
+        Me.DGV_datas.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DGV_datas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.DGV_datas.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.DGV_datas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DGV_datas.Location = New System.Drawing.Point(45, 105)
+        Me.DGV_datas.Location = New System.Drawing.Point(45, 101)
+        Me.DGV_datas.MinimumSize = New System.Drawing.Size(700, 0)
         Me.DGV_datas.Name = "DGV_datas"
-        Me.DGV_datas.Size = New System.Drawing.Size(716, 333)
+        Me.DGV_datas.ReadOnly = True
+        Me.DGV_datas.Size = New System.Drawing.Size(700, 448)
         Me.DGV_datas.TabIndex = 11
         '
         'main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(784, 561)
         Me.Controls.Add(Me.DGV_datas)
         Me.Controls.Add(Me.BT_detect)
         Me.Controls.Add(Me.LB_max_values)
@@ -153,6 +160,7 @@ Partial Class main
         Me.Controls.Add(Me.CB_port)
         Me.Controls.Add(Me.Bt_disconnect)
         Me.Controls.Add(Me.BtConnect)
+        Me.MinimumSize = New System.Drawing.Size(800, 600)
         Me.Name = "main"
         Me.Text = "PIERRON - USB"
         CType(Me.DGV_datas, System.ComponentModel.ISupportInitialize).EndInit()

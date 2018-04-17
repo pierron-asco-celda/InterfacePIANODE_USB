@@ -39,12 +39,15 @@ Public Class main
     Public Sub Serial_read()
         Dim message As String
         Dim dict As Object
+        Dim date_last_mesure As Date
+
         message = ""
         ' Lecture de la première ligne (pas forcement lue entière)
         Try
             message = SerialPort.ReadLine()
         Catch generatedExceptionName As TimeoutException
         End Try
+        date_last_mesure = DateAndTime.Now
         'Boucle tant connexion active
         While is_serial_read
             Try
@@ -52,19 +55,22 @@ Public Class main
             Catch generatedExceptionName As TimeoutException
             Catch generatedExceptionName As IO.IOException
             End Try
-            Try
-                dict = Json_serialiser.Deserialize(Of Object)(message)
-                Invoke(New Add_DGV_datas_delegate(AddressOf Add_DGV_datas), dict)
-            Catch ex As Exception
-
-            End Try
+            'Si le max_rate n'est pas atteint, on prend en compte la mesure
+            If DateDiff(DateInterval.Second, date_last_mesure, DateAndTime.Now) > 3600 / Convert.ToInt32(TB_max_rate.Text) Then
+                Try
+                    dict = Json_serialiser.Deserialize(Of Object)(message)
+                    Invoke(New Add_DGV_datas_delegate(AddressOf Add_DGV_datas), dict)
+                Catch ex As Exception
+                End Try
+                date_last_mesure = DateAndTime.Now
+            End If
         End While
     End Sub
     ''' <summary>
     ''' Construction du tableau de valeurs : chaque key du json reçu est une colonne du tableau
     ''' Délégation pour utilisation via autre Thread
     ''' </summary>
-    ''' <param name="json"></param>
+    ''' <param name="dict"></param>
     Public Delegate Sub Add_DGV_datas_delegate(dict As Object)
     Private Sub Add_DGV_datas(dict As Object)
         Dim colonne As DataGridViewTextBoxColumn
@@ -86,6 +92,24 @@ Public Class main
         Next
         DGV_datas.Rows.Add(row)
     End Sub
+
+    ''' <summary>
+    ''' Détect les port série actifs et met à jour CB_port
+    ''' </summary>
+    Private Sub Serial_detect()
+        Dim ports As String() = SerialPort.GetPortNames()
+        Dim port_precedent = CB_port.Text
+        CB_port.Items.Clear()
+        For Each port In ports
+            CB_port.Items.Add(port)
+        Next port
+        If port_precedent = "" Then
+            If ports.Length > 0 Then
+                CB_port.SelectedIndex = 0
+            End If
+        End If
+    End Sub
+
     '*****************************************
     '* INTERFACE : procédure événementielles *
     '*****************************************
@@ -108,10 +132,6 @@ Public Class main
         Call Serial_connect()
     End Sub
 
-
-
-
-
     Private Sub Bt_disconnect_Click(sender As Object, e As EventArgs) Handles Bt_disconnect.Click
         ' Bouton DISCONNECT
         is_serial_read = False
@@ -123,20 +143,6 @@ Public Class main
         Call Serial_detect()
     End Sub
 
-    Private Sub Serial_detect()
-        'Détect les port série actifs
-        Dim ports As String() = SerialPort.GetPortNames()
-        Dim port_precedent = CB_port.Text
-        CB_port.Items.Clear()
-        For Each port In ports
-            CB_port.Items.Add(port)
-        Next port
-        If port_precedent = "" Then
-            If ports.Length > 0 Then
-                CB_port.SelectedIndex = 0
-            End If
-        End If
-    End Sub
 
     Private Sub main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         'Fermeture de l'application
