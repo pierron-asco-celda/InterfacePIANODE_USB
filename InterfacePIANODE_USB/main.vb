@@ -7,6 +7,7 @@ Imports System.Web.Script.Serialization
 Public Class main
     Dim Th_serial_read As Thread 'Thread lié à un port série
     Dim is_serial_read As Boolean 'Flag pour continuer la lecture du port série
+    Dim Json_serialiser As New JavaScriptSerializer()
 
     '*********************
     '* FONCTIONS METIERS *
@@ -37,6 +38,8 @@ Public Class main
     ''' </summary>
     Public Sub Serial_read()
         Dim message As String
+        Dim dict As Object
+        message = ""
         ' Lecture de la première ligne (pas forcement lue entière)
         Try
             message = SerialPort.ReadLine()
@@ -46,12 +49,14 @@ Public Class main
         While is_serial_read
             Try
                 message = SerialPort.ReadLine()
-                Console.WriteLine(message, GetType(Message))
-                Dim f = New Add_DGV_datas_delegate(AddressOf Me.Add_DGV_datas)
-                Invoke(f, message)
             Catch generatedExceptionName As TimeoutException
             Catch generatedExceptionName As IO.IOException
-                'Catch ex As Exception 'Un peu boeuf => évite tout plantage
+            End Try
+            Try
+                dict = Json_serialiser.Deserialize(Of Object)(message)
+                Invoke(New Add_DGV_datas_delegate(AddressOf Add_DGV_datas), dict)
+            Catch ex As Exception
+
             End Try
         End While
     End Sub
@@ -60,34 +65,26 @@ Public Class main
     ''' Délégation pour utilisation via autre Thread
     ''' </summary>
     ''' <param name="json"></param>
-    Public Delegate Sub Add_DGV_datas_delegate(ByVal message As String)
-    Private Sub Add_DGV_datas(ByVal message As String)
+    Public Delegate Sub Add_DGV_datas_delegate(dict As Object)
+    Private Sub Add_DGV_datas(dict As Object)
         Dim colonne As DataGridViewTextBoxColumn
-        Dim dict As Object
-        Try
-            dict = New JavaScriptSerializer().Deserialize(Of Object)(message)
-        Catch ex As Exception
-            dict = Nothing
-        End Try
-        If dict Then
-            'Ajout de la date
-            dict.add("date", Date.Now)
-            'Ajout des colonnes manquantes
-            For Each pair In dict
-                If Not DGV_datas.Columns.Contains(pair.key) Then
-                    colonne = New DataGridViewTextBoxColumn()
-                    colonne.Name = pair.key
-                    colonne.DataPropertyName = pair.key
-                    DGV_datas.Columns.Add(colonne)
-                End If
-            Next
-            'Insertion des données
-            Dim row() As String = New String(DGV_datas.Columns.Count) {}
-            For Each pair In dict
-                row(DGV_datas.Columns.Item(pair.key).index) = pair.value
-            Next
-            DGV_datas.Rows.Add(row)
-        End If
+        'Ajout de la date
+        dict.add("date", Date.Now)
+        'Ajout des colonnes manquantes
+        For Each pair In dict
+            If Not DGV_datas.Columns.Contains(pair.key) Then
+                colonne = New DataGridViewTextBoxColumn()
+                colonne.Name = pair.key
+                colonne.DataPropertyName = pair.key
+                DGV_datas.Columns.Add(colonne)
+            End If
+        Next
+        'Insertion des données
+        Dim row() As String = New String(DGV_datas.Columns.Count) {}
+        For Each pair In dict
+            row(DGV_datas.Columns.Item(pair.key).index) = pair.value
+        Next
+        DGV_datas.Rows.Add(row)
     End Sub
     '*****************************************
     '* INTERFACE : procédure événementielles *
