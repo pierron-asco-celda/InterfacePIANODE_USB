@@ -54,9 +54,11 @@ Public Class main
                 message = SerialPort.ReadLine()
             Catch generatedExceptionName As TimeoutException
             Catch generatedExceptionName As IO.IOException
+            Catch ex As UnauthorizedAccessException
+                Invoke(New Serial_close_delegate(AddressOf Serial_close))
             End Try
             'Si le max_rate n'est pas atteint, on prend en compte la mesure
-            If DateDiff(DateInterval.Second, date_last_mesure, DateAndTime.Now) > 3600 / Convert.ToInt32(TB_max_rate.Text) Then
+            If DateDiff(DateInterval.Second, date_last_mesure, DateAndTime.Now) > Convert.ToInt32(TB_max_rate.Text) Then
                 Try
                     dict = Json_serialiser.Deserialize(Of Object)(message)
                     Invoke(New Add_DGV_datas_delegate(AddressOf Add_DGV_datas), dict)
@@ -65,6 +67,16 @@ Public Class main
                 date_last_mesure = DateAndTime.Now
             End If
         End While
+    End Sub
+    ''' <summary>
+    ''' Close the serial communication
+    ''' </summary>
+    Public Delegate Sub Serial_close_delegate()
+    Public Sub Serial_close()
+        is_serial_read = False
+        SerialPort.Close()
+        BtConnect.Enabled = True
+        Bt_disconnect.Enabled = False
     End Sub
     ''' <summary>
     ''' Construction du tableau de valeurs : chaque key du json reçu est une colonne du tableau
@@ -137,12 +149,13 @@ Public Class main
 
     Private Sub BtConnect_Click(sender As Object, e As EventArgs) Handles BtConnect.Click
         Call Serial_connect()
+        BtConnect.Enabled = False
+        Bt_disconnect.Enabled = True
     End Sub
 
     Private Sub Bt_disconnect_Click(sender As Object, e As EventArgs) Handles Bt_disconnect.Click
         ' Bouton DISCONNECT
-        is_serial_read = False
-        SerialPort.Close()
+        Call Serial_close()
     End Sub
 
     Private Sub BT_detect_Click(sender As Object, e As EventArgs) Handles BT_detect.Click
@@ -168,5 +181,49 @@ Public Class main
     Private Sub BT_raz_Click(sender As Object, e As EventArgs) Handles BT_raz.Click
         'Bouton RAZ
         DGV_datas.Rows.Clear()
+        DGV_datas.Columns.Clear()
+    End Sub
+
+    Private Sub TB_max_rate_TextChanged(sender As Object, e As EventArgs) Handles TB_max_rate.TextChanged
+        TRB_rate.Value = Convert.ToInt32(TB_max_rate.Text)
+    End Sub
+
+    Private Sub TB_max_values_TextChanged(sender As Object, e As EventArgs) Handles TB_max_values.TextChanged
+        TRB_max_datas.Value = Convert.ToInt32(TB_max_values.Text)
+        PRB_nb_datas.Maximum = TRB_max_datas.Value
+    End Sub
+
+    Private Sub TRB_max_datas_Scroll(sender As Object, e As EventArgs) Handles TRB_max_datas.Scroll
+        TB_max_values.Text = Convert.ToString(TRB_max_datas.Value)
+        PRB_nb_datas.Maximum = TRB_max_datas.Value
+    End Sub
+
+    Private Sub TRB_rate_Scroll(sender As Object, e As EventArgs) Handles TRB_rate.Scroll
+        TB_max_rate.Text = Convert.ToString(TRB_rate.Value)
+    End Sub
+
+    Private Sub DGV_datas_RowsAdded(sender As Object, e As DataGridViewRowsAddedEventArgs) Handles DGV_datas.RowsAdded
+        PRB_nb_datas.Value = DGV_datas.Rows.Count
+    End Sub
+
+    Private Sub DGV_datas_RowsRemoved(sender As Object, e As DataGridViewRowsRemovedEventArgs) Handles DGV_datas.RowsRemoved
+        PRB_nb_datas.Value = DGV_datas.Rows.Count
+    End Sub
+
+    Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
+
+    End Sub
+
+    Private Sub QuitterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QuitterToolStripMenuItem.Click
+        End
+    End Sub
+
+    Private Sub RAZToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RAZToolStripMenuItem.Click
+        DGV_datas.Rows.Clear()
+        DGV_datas.Columns.Clear()
+    End Sub
+
+    Private Sub AProposToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AProposToolStripMenuItem.Click
+        AboutBox.Show()
     End Sub
 End Class

@@ -1,4 +1,5 @@
-﻿Imports System
+﻿Imports System.Resources
+Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
@@ -9,13 +10,13 @@ Imports System.Runtime.InteropServices
 ' Vérifiez les valeurs des attributs de l'assembly
 
 <Assembly: AssemblyTitle("InterfacePIANODE_USB")>
-<Assembly: AssemblyDescription("Lecteur de capteur PIANODE sans PIANODE")>
+<Assembly: AssemblyDescription("Lecteur de capteur PIANODE sans PIANODE via liaison série.")>
 <Assembly: AssemblyCompany("PIERRON ASCO & CELDA")>
 <Assembly: AssemblyProduct("InterfacePIANODE_USB")>
-<Assembly: AssemblyCopyright("Copyright ©  2018")>
+<Assembly: AssemblyCopyright("licence CeCIL (http://www.cecill.info/)")>
 <Assembly: AssemblyTrademark("PIERRON")>
 
-<Assembly: ComVisible(False)>
+<Assembly: ComVisible(True)>
 
 'Le GUID suivant est pour l'ID de la typelib si ce projet est exposé à COM
 <Assembly: Guid("63aaa26f-cb78-4295-a93a-0ada82c4d135")>
@@ -33,3 +34,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("0.1.0.1")>
 <Assembly: AssemblyFileVersion("0.1.0.1")>
+<Assembly: NeutralResourcesLanguage("fr")>
