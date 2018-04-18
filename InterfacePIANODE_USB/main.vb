@@ -104,7 +104,8 @@ Public Class main
         For Each pair In dict
             row(DGV_datas.Columns.Item(pair.key).index) = pair.value
         Next
-        DGV_datas.Rows.Insert(0, row)
+        'DGV_datas.Rows.Insert(0, row)
+        DGV_datas.Rows.Add(row)
 
         'Si trop de donnée (max_value), supression des données en trop
         While DGV_datas.Rows.Count > Convert.ToInt32(TB_max_values.Text)
@@ -204,6 +205,7 @@ Public Class main
 
     Private Sub DGV_datas_RowsAdded(sender As Object, e As DataGridViewRowsAddedEventArgs) Handles DGV_datas.RowsAdded
         PRB_nb_datas.Value = DGV_datas.Rows.Count
+        DGV_datas.FirstDisplayedScrollingRowIndex = DGV_datas.RowCount - 1
     End Sub
 
     Private Sub DGV_datas_RowsRemoved(sender As Object, e As DataGridViewRowsRemovedEventArgs) Handles DGV_datas.RowsRemoved

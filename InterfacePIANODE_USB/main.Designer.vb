@@ -155,6 +155,8 @@ Partial Class main
         '
         'DGV_datas
         '
+        Me.DGV_datas.AccessibleDescription = "Données collectées"
+        Me.DGV_datas.AccessibleName = "Données"
         Me.DGV_datas.AllowUserToAddRows = False
         Me.DGV_datas.AllowUserToOrderColumns = True
         Me.DGV_datas.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
