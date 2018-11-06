@@ -18,7 +18,7 @@ Public Class main
     ''' <summary>
     ''' Connecte le port série et execute un thread pour lecture
     ''' </summary>
-    Public Sub Serial_connect()
+    Public Function Serial_connect()
         If Not is_serial_read Then
             Try
                 SerialPort.Close()
@@ -32,12 +32,18 @@ Public Class main
             SerialPort.StopBits = StopBits.One
             SerialPort.DataBits = 8
             SerialPort.Handshake = Handshake.None
-            SerialPort.Open()
-            is_serial_read = True
-            Th_serial_read = New Thread(AddressOf Serial_read)
-            Th_serial_read.Start()
+            Try
+                SerialPort.Open()
+                is_serial_read = True
+                Th_serial_read = New Thread(AddressOf Serial_read)
+                Th_serial_read.Start()
+            Catch ex As System.UnauthorizedAccessException
+                TSSL_modele.Text = "Erreur connection USB."
+                Return False
+            End Try
         End If
-    End Sub
+        Return True
+    End Function
     ''' <summary>
     ''' Lecture en continue du port série
     ''' Cette Sub est() apellée via un Thread
@@ -60,11 +66,11 @@ Public Class main
                 message = SerialPort.ReadLine()
                 Console.WriteLine("Recept : " + message)
                 'Si le max_rate n'est pas atteint, on prend en compte la mesure
-                If DateDiff(DateInterval.Second, date_last_mesure, DateAndTime.Now) >= Convert.ToInt32(TB_max_rate.Text) Then
-                    dict = Json_serialiser.Deserialize(Of Object)(message)
+                If DateDiff(DateInterval.Second, date_last_mesure, DateAndTime.Now) >= Convert.ToInt32(TB_max_rate.Text) - 1 Then
                     Try
+                        dict = Json_serialiser.Deserialize(Of Object)(message)
                         Invoke(New Add_DGV_datas_delegate(AddressOf Add_DGV_datas), dict)
-                    Catch ex2 As exception
+                    Catch ex2 As Exception
                     End Try
                     date_last_mesure = DateAndTime.Now
                 End If
@@ -86,7 +92,7 @@ Public Class main
         SerialPort.Close()
         BtConnect.Enabled = True
         Bt_disconnect.Enabled = False
-        LB_modele.Text = "Aucun produit connecté"
+        TSSL_modele.Text = "Aucun produit connecté"
     End Sub
     ''' <summary>
     ''' Lecture de l'objet reçu via json decoder
@@ -103,7 +109,7 @@ Public Class main
         Dim indexColonne As Integer
 
         modele = dict("MODELE")
-        LB_modele.Text = "Produit connecté : " + modele("MODELE") + " version " + modele("VERSION")
+        TSSL_modele.Text = "Produit connecté : " + modele("MODELE") + " version " + modele("VERSION")
         datas = dict("DATAS")
         'Ajout de la date
         If Not datas.ContainsValue("date") Then
@@ -118,7 +124,7 @@ Public Class main
                 DGV_datas.Columns.Add(colonne)
                 ' trie des colonnes
                 For Each column In DGV_datas.Columns
-                    If column.Name > colonne.Name And column.DisplayIndex < colonne.DisplayIndex Then
+                    If (column.Name > colonne.Name Or colonne.Name = "date") And column.DisplayIndex < colonne.DisplayIndex Then
                         indexColonne = column.DisplayIndex
                         colonne.DisplayIndex = column.DisplayIndex
                         column.DisplayIndex = indexColonne + 1
@@ -126,18 +132,19 @@ Public Class main
                 Next
             End If
         Next
-        'Insertion des données
-        Dim row() As String = New String(DGV_datas.Columns.Count) {}
-        For Each pair In datas
-            row(DGV_datas.Columns.Item(pair.key).index) = pair.value
-        Next
-        'DGV_datas.Rows.Insert(0, row)
-        DGV_datas.Rows.Add(row)
-
+        If DGV_datas.Rows.Count < Me.Max_datas Then
+            'Insertion des données
+            Dim row() As String = New String(DGV_datas.Columns.Count) {}
+            For Each pair In datas
+                row(DGV_datas.Columns.Item(pair.key).index) = pair.value
+            Next
+            'DGV_datas.Rows.Insert(0, row)
+            DGV_datas.Rows.Add(row)
+        End If
         'Si trop de donnée (max_value), supression des données en trop
-        While DGV_datas.Rows.Count > Me.Max_datas
-            DGV_datas.Rows.RemoveAt(DGV_datas.Rows.Count - 1)
-        End While
+        'While DGV_datas.Rows.Count > Me.Max_datas
+        '   DGV_datas.Rows.RemoveAt(DGV_datas.Rows.Count - 1)
+        'End While
     End Sub
 
     ''' <summary>
@@ -201,9 +208,10 @@ Public Class main
     End Sub
 
     Private Sub BtConnect_Click(sender As Object, e As EventArgs) Handles BtConnect.Click
-        Call Serial_connect()
-        BtConnect.Enabled = False
-        Bt_disconnect.Enabled = True
+        If Serial_connect() Then
+            BtConnect.Enabled = False
+            Bt_disconnect.Enabled = True
+        End If
     End Sub
 
     Private Sub Bt_disconnect_Click(sender As Object, e As EventArgs) Handles Bt_disconnect.Click
@@ -238,19 +246,28 @@ Public Class main
     End Sub
 
     Private Sub TB_max_rate_TextChanged(sender As Object, e As EventArgs) Handles TB_max_rate.TextChanged
-        TRB_rate.Value = Convert.ToInt32(TB_max_rate.Text)
+        Try
+            TRB_rate.Value = Convert.ToInt32(TB_max_rate.Text)
+        Catch ex As Exception
+        End Try
+
     End Sub
 
     Private Sub TB_max_values_TextChanged(sender As Object, e As EventArgs) Handles TB_max_values.TextChanged
-        Me.Max_datas = Convert.ToInt32(TB_max_values.Text)
+        Try
+            Me.Max_datas = Convert.ToInt32(TB_max_values.Text)
+        Catch ex As Exception
+        End Try
         TRB_max_datas.Value = Me.Max_datas
-        PRB_nb_datas.Maximum = Me.Max_datas + 1
+        TSPB_nb_datas.Maximum = Me.Max_datas
+        Call UpdateTextDonnees()
     End Sub
 
     Private Sub TRB_max_datas_Scroll(sender As Object, e As EventArgs) Handles TRB_max_datas.Scroll
         Me.Max_datas = TRB_max_datas.Value
         TB_max_values.Text = Convert.ToString(Me.Max_datas)
-        PRB_nb_datas.Maximum = TRB_max_datas.Value + 1
+        TSPB_nb_datas.Maximum = TRB_max_datas.Value
+        Call UpdateTextDonnees()
     End Sub
 
     Private Sub TRB_rate_Scroll(sender As Object, e As EventArgs) Handles TRB_rate.Scroll
@@ -258,12 +275,14 @@ Public Class main
     End Sub
 
     Private Sub DGV_datas_RowsAdded(sender As Object, e As DataGridViewRowsAddedEventArgs) Handles DGV_datas.RowsAdded
-        PRB_nb_datas.Value = DGV_datas.Rows.Count
+        TSPB_nb_datas.Value = DGV_datas.Rows.Count
         DGV_datas.FirstDisplayedScrollingRowIndex = DGV_datas.RowCount - 1
+        Call UpdateTextDonnees()
     End Sub
 
     Private Sub DGV_datas_RowsRemoved(sender As Object, e As DataGridViewRowsRemovedEventArgs) Handles DGV_datas.RowsRemoved
-        PRB_nb_datas.Value = DGV_datas.Rows.Count
+        TSPB_nb_datas.Value = DGV_datas.Rows.Count
+        Call UpdateTextDonnees()
     End Sub
 
     Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
@@ -299,5 +318,39 @@ Public Class main
         End If
     End Sub
 
+    Private Sub UpdateTextDonnees()
+        TSSL_donnees.Text = "(" + CStr(TSPB_nb_datas.Value) + "/" + CStr(Max_datas) + ")"
+    End Sub
+
+
+
+    Private Sub CopierTSMenuItem_Click(sender As Object, e As EventArgs)
+        Dim s As String = ""
+        Dim oCurrentCol As DataGridViewColumn    'Get header
+        oCurrentCol = DGV_datas.Columns.GetFirstColumn(DataGridViewElementStates.Visible)
+        Do
+            s &= oCurrentCol.HeaderText & Chr(Keys.Tab)
+            oCurrentCol = DGV_datas.Columns.GetNextColumn(oCurrentCol,
+         DataGridViewElementStates.Visible, DataGridViewElementStates.None)
+        Loop Until oCurrentCol Is Nothing
+        s = s.Substring(0, s.Length - 1)
+        s &= Environment.NewLine    'Get rows
+        For Each row As DataGridViewRow In DGV_datas.Rows
+            oCurrentCol = DGV_datas.Columns.GetFirstColumn(DataGridViewElementStates.Visible)
+            Do
+                If row.Cells(oCurrentCol.Index).Value IsNot Nothing Then
+                    s &= row.Cells(oCurrentCol.Index).Value.ToString
+                End If
+                s &= Chr(Keys.Tab)
+                oCurrentCol = DGV_datas.Columns.GetNextColumn(oCurrentCol,
+              DataGridViewElementStates.Visible, DataGridViewElementStates.None)
+            Loop Until oCurrentCol Is Nothing
+            s = s.Substring(0, s.Length - 1)
+            s &= Environment.NewLine
+        Next    'Put to clipboard
+        Dim o As New DataObject
+        o.SetText(s)
+        Clipboard.SetDataObject(o, True)
+    End Sub
 
 End Class

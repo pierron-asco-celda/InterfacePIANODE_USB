@@ -23,6 +23,7 @@ Partial Class main
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(main))
         Me.SerialPort = New System.IO.Ports.SerialPort(Me.components)
         Me.BtConnect = New System.Windows.Forms.Button()
         Me.Bt_disconnect = New System.Windows.Forms.Button()
@@ -41,10 +42,13 @@ Partial Class main
         Me.GP_datas = New System.Windows.Forms.GroupBox()
         Me.TRB_rate = New System.Windows.Forms.TrackBar()
         Me.TRB_max_datas = New System.Windows.Forms.TrackBar()
-        Me.PRB_nb_datas = New System.Windows.Forms.ProgressBar()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FichierToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.QuitterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditionToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.CopierTSMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.DonnéesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RAZToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ActionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -55,7 +59,10 @@ Partial Class main
         Me.AProposToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.PB_LogoPierron = New System.Windows.Forms.PictureBox()
-        Me.LB_modele = New System.Windows.Forms.Label()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.TSPB_nb_datas = New System.Windows.Forms.ToolStripProgressBar()
+        Me.TSSL_donnees = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.TSSL_modele = New System.Windows.Forms.ToolStripStatusLabel()
         CType(Me.DGV_datas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GP_datas.SuspendLayout()
@@ -64,108 +71,99 @@ Partial Class main
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PB_LogoPierron, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'BtConnect
         '
-        Me.BtConnect.Location = New System.Drawing.Point(336, 26)
-        Me.BtConnect.Margin = New System.Windows.Forms.Padding(4)
+        Me.BtConnect.Location = New System.Drawing.Point(252, 16)
         Me.BtConnect.Name = "BtConnect"
-        Me.BtConnect.Size = New System.Drawing.Size(100, 28)
+        Me.BtConnect.Size = New System.Drawing.Size(75, 23)
         Me.BtConnect.TabIndex = 0
-        Me.BtConnect.Text = "Connect"
+        Me.BtConnect.Text = "Connecte"
         Me.BtConnect.UseVisualStyleBackColor = True
         '
         'Bt_disconnect
         '
         Me.Bt_disconnect.Enabled = False
-        Me.Bt_disconnect.Location = New System.Drawing.Point(336, 59)
-        Me.Bt_disconnect.Margin = New System.Windows.Forms.Padding(4)
+        Me.Bt_disconnect.Location = New System.Drawing.Point(252, 43)
         Me.Bt_disconnect.Name = "Bt_disconnect"
-        Me.Bt_disconnect.Size = New System.Drawing.Size(100, 28)
+        Me.Bt_disconnect.Size = New System.Drawing.Size(75, 23)
         Me.Bt_disconnect.TabIndex = 1
-        Me.Bt_disconnect.Text = "Disconnect"
+        Me.Bt_disconnect.Text = "Déconnecte"
         Me.Bt_disconnect.UseVisualStyleBackColor = True
         '
         'CB_port
         '
         Me.CB_port.FormattingEnabled = True
         Me.CB_port.Items.AddRange(New Object() {"COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "COM10", "COM11", "COM12", "COM13", "COM14", "COM15"})
-        Me.CB_port.Location = New System.Drawing.Point(99, 28)
-        Me.CB_port.Margin = New System.Windows.Forms.Padding(4)
+        Me.CB_port.Location = New System.Drawing.Point(74, 23)
         Me.CB_port.Name = "CB_port"
-        Me.CB_port.Size = New System.Drawing.Size(104, 24)
+        Me.CB_port.Size = New System.Drawing.Size(79, 21)
         Me.CB_port.TabIndex = 2
         '
         'CB_baudrate
         '
         Me.CB_baudrate.FormattingEnabled = True
         Me.CB_baudrate.Items.AddRange(New Object() {"9600", "115200"})
-        Me.CB_baudrate.Location = New System.Drawing.Point(99, 62)
-        Me.CB_baudrate.Margin = New System.Windows.Forms.Padding(4)
+        Me.CB_baudrate.Location = New System.Drawing.Point(72, 50)
         Me.CB_baudrate.Name = "CB_baudrate"
-        Me.CB_baudrate.Size = New System.Drawing.Size(104, 24)
+        Me.CB_baudrate.Size = New System.Drawing.Size(79, 21)
         Me.CB_baudrate.TabIndex = 3
         Me.CB_baudrate.Text = "115200"
         '
         'BT_raz
         '
-        Me.BT_raz.Location = New System.Drawing.Point(371, 32)
-        Me.BT_raz.Margin = New System.Windows.Forms.Padding(4)
+        Me.BT_raz.Location = New System.Drawing.Point(305, 21)
         Me.BT_raz.Name = "BT_raz"
-        Me.BT_raz.Size = New System.Drawing.Size(100, 28)
+        Me.BT_raz.Size = New System.Drawing.Size(48, 45)
         Me.BT_raz.TabIndex = 5
         Me.BT_raz.Text = "RAZ"
         Me.BT_raz.UseVisualStyleBackColor = True
         '
         'TB_max_rate
         '
-        Me.TB_max_rate.Location = New System.Drawing.Point(248, 68)
-        Me.TB_max_rate.Margin = New System.Windows.Forms.Padding(4)
+        Me.TB_max_rate.Location = New System.Drawing.Point(254, 45)
         Me.TB_max_rate.Name = "TB_max_rate"
-        Me.TB_max_rate.Size = New System.Drawing.Size(59, 22)
+        Me.TB_max_rate.Size = New System.Drawing.Size(42, 20)
         Me.TB_max_rate.TabIndex = 6
         Me.TB_max_rate.Text = "0"
         '
         'LB_max_rate
         '
         Me.LB_max_rate.AutoSize = True
-        Me.LB_max_rate.Location = New System.Drawing.Point(8, 71)
-        Me.LB_max_rate.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.LB_max_rate.Location = New System.Drawing.Point(6, 53)
         Me.LB_max_rate.Name = "LB_max_rate"
-        Me.LB_max_rate.Size = New System.Drawing.Size(94, 17)
+        Me.LB_max_rate.Size = New System.Drawing.Size(113, 13)
         Me.LB_max_rate.TabIndex = 7
-        Me.LB_max_rate.Text = "sec. / donnée"
+        Me.LB_max_rate.Text = "Débit limite (secondes)"
         '
         'LB_max_values
         '
         Me.LB_max_values.AutoSize = True
-        Me.LB_max_values.Location = New System.Drawing.Point(12, 38)
-        Me.LB_max_values.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.LB_max_values.Location = New System.Drawing.Point(9, 26)
         Me.LB_max_values.Name = "LB_max_values"
-        Me.LB_max_values.Size = New System.Drawing.Size(78, 17)
+        Me.LB_max_values.Size = New System.Drawing.Size(63, 13)
         Me.LB_max_values.TabIndex = 9
-        Me.LB_max_values.Text = "Max values"
+        Me.LB_max_values.Text = "Nb val max."
         '
         'TB_max_values
         '
         Me.TB_max_values.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.TB_max_values.Location = New System.Drawing.Point(248, 28)
-        Me.TB_max_values.Margin = New System.Windows.Forms.Padding(4)
+        Me.TB_max_values.Location = New System.Drawing.Point(254, 18)
         Me.TB_max_values.MaxLength = 6
         Me.TB_max_values.Name = "TB_max_values"
-        Me.TB_max_values.Size = New System.Drawing.Size(59, 22)
+        Me.TB_max_values.Size = New System.Drawing.Size(42, 20)
         Me.TB_max_values.TabIndex = 8
         Me.TB_max_values.Text = "1000"
         '
         'BT_detect
         '
-        Me.BT_detect.Location = New System.Drawing.Point(212, 28)
-        Me.BT_detect.Margin = New System.Windows.Forms.Padding(4)
+        Me.BT_detect.Location = New System.Drawing.Point(159, 18)
         Me.BT_detect.Name = "BT_detect"
-        Me.BT_detect.Size = New System.Drawing.Size(76, 28)
+        Me.BT_detect.Size = New System.Drawing.Size(74, 23)
         Me.BT_detect.TabIndex = 10
-        Me.BT_detect.Text = "Detect"
+        Me.BT_detect.Text = "Détection"
         Me.BT_detect.UseVisualStyleBackColor = True
         '
         'DGV_datas
@@ -180,12 +178,11 @@ Partial Class main
         Me.DGV_datas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
         Me.DGV_datas.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.DGV_datas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DGV_datas.Location = New System.Drawing.Point(23, 299)
-        Me.DGV_datas.Margin = New System.Windows.Forms.Padding(4)
-        Me.DGV_datas.MinimumSize = New System.Drawing.Size(933, 0)
+        Me.DGV_datas.Location = New System.Drawing.Point(12, 220)
+        Me.DGV_datas.MinimumSize = New System.Drawing.Size(700, 0)
         Me.DGV_datas.Name = "DGV_datas"
         Me.DGV_datas.ReadOnly = True
-        Me.DGV_datas.Size = New System.Drawing.Size(977, 497)
+        Me.DGV_datas.Size = New System.Drawing.Size(736, 421)
         Me.DGV_datas.TabIndex = 11
         '
         'GroupBox1
@@ -197,32 +194,28 @@ Partial Class main
         Me.GroupBox1.Controls.Add(Me.BT_detect)
         Me.GroupBox1.Controls.Add(Me.BtConnect)
         Me.GroupBox1.Controls.Add(Me.Bt_disconnect)
-        Me.GroupBox1.Location = New System.Drawing.Point(16, 167)
-        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
+        Me.GroupBox1.Location = New System.Drawing.Point(12, 136)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupBox1.Size = New System.Drawing.Size(475, 95)
+        Me.GroupBox1.Size = New System.Drawing.Size(356, 84)
         Me.GroupBox1.TabIndex = 14
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Port"
+        Me.GroupBox1.Text = "Port USB"
         '
         'LB_baudrate
         '
         Me.LB_baudrate.AutoSize = True
-        Me.LB_baudrate.Location = New System.Drawing.Point(9, 71)
-        Me.LB_baudrate.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.LB_baudrate.Location = New System.Drawing.Point(7, 53)
         Me.LB_baudrate.Name = "LB_baudrate"
-        Me.LB_baudrate.Size = New System.Drawing.Size(78, 17)
+        Me.LB_baudrate.Size = New System.Drawing.Size(59, 13)
         Me.LB_baudrate.TabIndex = 5
         Me.LB_baudrate.Text = "Baud rate :"
         '
         'LB_port
         '
         Me.LB_port.AutoSize = True
-        Me.LB_port.Location = New System.Drawing.Point(9, 38)
-        Me.LB_port.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.LB_port.Location = New System.Drawing.Point(7, 26)
         Me.LB_port.Name = "LB_port"
-        Me.LB_port.Size = New System.Drawing.Size(42, 17)
+        Me.LB_port.Size = New System.Drawing.Size(32, 13)
         Me.LB_port.TabIndex = 4
         Me.LB_port.Text = "Port :"
         '
@@ -230,56 +223,45 @@ Partial Class main
         '
         Me.GP_datas.Controls.Add(Me.TRB_rate)
         Me.GP_datas.Controls.Add(Me.TRB_max_datas)
-        Me.GP_datas.Controls.Add(Me.PRB_nb_datas)
         Me.GP_datas.Controls.Add(Me.BT_raz)
         Me.GP_datas.Controls.Add(Me.LB_max_values)
         Me.GP_datas.Controls.Add(Me.TB_max_rate)
         Me.GP_datas.Controls.Add(Me.LB_max_rate)
         Me.GP_datas.Controls.Add(Me.TB_max_values)
-        Me.GP_datas.Location = New System.Drawing.Point(521, 167)
-        Me.GP_datas.Margin = New System.Windows.Forms.Padding(4)
+        Me.GP_datas.Location = New System.Drawing.Point(374, 136)
         Me.GP_datas.Name = "GP_datas"
-        Me.GP_datas.Padding = New System.Windows.Forms.Padding(4)
-        Me.GP_datas.Size = New System.Drawing.Size(479, 95)
+        Me.GP_datas.Size = New System.Drawing.Size(376, 84)
         Me.GP_datas.TabIndex = 15
         Me.GP_datas.TabStop = False
         Me.GP_datas.Text = "Données"
         '
         'TRB_rate
         '
-        Me.TRB_rate.Location = New System.Drawing.Point(101, 68)
-        Me.TRB_rate.Margin = New System.Windows.Forms.Padding(4)
+        Me.TRB_rate.AutoSize = False
+        Me.TRB_rate.Location = New System.Drawing.Point(123, 50)
         Me.TRB_rate.Maximum = 3600
         Me.TRB_rate.Name = "TRB_rate"
-        Me.TRB_rate.Size = New System.Drawing.Size(139, 56)
+        Me.TRB_rate.Size = New System.Drawing.Size(125, 28)
         Me.TRB_rate.TabIndex = 8
         '
         'TRB_max_datas
         '
-        Me.TRB_max_datas.Location = New System.Drawing.Point(101, 28)
-        Me.TRB_max_datas.Margin = New System.Windows.Forms.Padding(4)
+        Me.TRB_max_datas.AutoSize = False
+        Me.TRB_max_datas.Location = New System.Drawing.Point(123, 16)
         Me.TRB_max_datas.Maximum = 1000
+        Me.TRB_max_datas.Minimum = 1
         Me.TRB_max_datas.Name = "TRB_max_datas"
-        Me.TRB_max_datas.Size = New System.Drawing.Size(139, 56)
+        Me.TRB_max_datas.Size = New System.Drawing.Size(125, 28)
         Me.TRB_max_datas.TabIndex = 7
-        '
-        'PRB_nb_datas
-        '
-        Me.PRB_nb_datas.Location = New System.Drawing.Point(316, 64)
-        Me.PRB_nb_datas.Margin = New System.Windows.Forms.Padding(4)
-        Me.PRB_nb_datas.Maximum = 1000
-        Me.PRB_nb_datas.Name = "PRB_nb_datas"
-        Me.PRB_nb_datas.Size = New System.Drawing.Size(155, 28)
-        Me.PRB_nb_datas.TabIndex = 6
+        Me.TRB_max_datas.Value = 1
         '
         'MenuStrip1
         '
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FichierToolStripMenuItem, Me.DonnéesToolStripMenuItem, Me.ActionsToolStripMenuItem, Me.AideToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FichierToolStripMenuItem, Me.EditionToolStripMenuItem1, Me.DonnéesToolStripMenuItem, Me.ActionsToolStripMenuItem, Me.AideToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(8, 2, 0, 2)
-        Me.MenuStrip1.Size = New System.Drawing.Size(1013, 28)
+        Me.MenuStrip1.Size = New System.Drawing.Size(760, 24)
         Me.MenuStrip1.TabIndex = 16
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -287,73 +269,97 @@ Partial Class main
         '
         Me.FichierToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QuitterToolStripMenuItem})
         Me.FichierToolStripMenuItem.Name = "FichierToolStripMenuItem"
-        Me.FichierToolStripMenuItem.Size = New System.Drawing.Size(64, 24)
+        Me.FichierToolStripMenuItem.Size = New System.Drawing.Size(54, 20)
         Me.FichierToolStripMenuItem.Text = "Fichier"
         '
         'QuitterToolStripMenuItem
         '
         Me.QuitterToolStripMenuItem.Name = "QuitterToolStripMenuItem"
-        Me.QuitterToolStripMenuItem.Size = New System.Drawing.Size(130, 26)
+        Me.QuitterToolStripMenuItem.Size = New System.Drawing.Size(111, 22)
         Me.QuitterToolStripMenuItem.Text = "Quitter"
+        '
+        'EditionToolStripMenuItem1
+        '
+        Me.EditionToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripSeparator3, Me.CopierTSMenuItem, Me.toolStripSeparator4})
+        Me.EditionToolStripMenuItem1.Name = "EditionToolStripMenuItem1"
+        Me.EditionToolStripMenuItem1.Size = New System.Drawing.Size(56, 20)
+        Me.EditionToolStripMenuItem1.Text = "&Edition"
+        '
+        'toolStripSeparator3
+        '
+        Me.toolStripSeparator3.Name = "toolStripSeparator3"
+        Me.toolStripSeparator3.Size = New System.Drawing.Size(181, 6)
+        '
+        'CopierTSMenuItem
+        '
+        Me.CopierTSMenuItem.Image = CType(resources.GetObject("CopierTSMenuItem.Image"), System.Drawing.Image)
+        Me.CopierTSMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.CopierTSMenuItem.Name = "CopierTSMenuItem"
+        Me.CopierTSMenuItem.Size = New System.Drawing.Size(184, 26)
+        Me.CopierTSMenuItem.Text = "Co&pier les données"
+        '
+        'toolStripSeparator4
+        '
+        Me.toolStripSeparator4.Name = "toolStripSeparator4"
+        Me.toolStripSeparator4.Size = New System.Drawing.Size(181, 6)
         '
         'DonnéesToolStripMenuItem
         '
         Me.DonnéesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RAZToolStripMenuItem})
         Me.DonnéesToolStripMenuItem.Name = "DonnéesToolStripMenuItem"
-        Me.DonnéesToolStripMenuItem.Size = New System.Drawing.Size(79, 24)
+        Me.DonnéesToolStripMenuItem.Size = New System.Drawing.Size(65, 20)
         Me.DonnéesToolStripMenuItem.Text = "Données"
         '
         'RAZToolStripMenuItem
         '
         Me.RAZToolStripMenuItem.Name = "RAZToolStripMenuItem"
-        Me.RAZToolStripMenuItem.Size = New System.Drawing.Size(112, 26)
+        Me.RAZToolStripMenuItem.Size = New System.Drawing.Size(96, 22)
         Me.RAZToolStripMenuItem.Text = "RAZ"
         '
         'ActionsToolStripMenuItem
         '
         Me.ActionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EnvoieINITToolStripMenuItem, Me.EnvoieCALIBREToolStripMenuItem, Me.EnvoieToolStripMenuItem})
         Me.ActionsToolStripMenuItem.Name = "ActionsToolStripMenuItem"
-        Me.ActionsToolStripMenuItem.Size = New System.Drawing.Size(70, 24)
+        Me.ActionsToolStripMenuItem.Size = New System.Drawing.Size(59, 20)
         Me.ActionsToolStripMenuItem.Text = "Actions"
         '
         'EnvoieINITToolStripMenuItem
         '
         Me.EnvoieINITToolStripMenuItem.Name = "EnvoieINITToolStripMenuItem"
-        Me.EnvoieINITToolStripMenuItem.Size = New System.Drawing.Size(188, 26)
+        Me.EnvoieINITToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.EnvoieINITToolStripMenuItem.Text = "Envoie INIT"
         '
         'EnvoieCALIBREToolStripMenuItem
         '
         Me.EnvoieCALIBREToolStripMenuItem.Name = "EnvoieCALIBREToolStripMenuItem"
-        Me.EnvoieCALIBREToolStripMenuItem.Size = New System.Drawing.Size(188, 26)
+        Me.EnvoieCALIBREToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.EnvoieCALIBREToolStripMenuItem.Text = "Envoie CALIBRE"
         '
         'EnvoieToolStripMenuItem
         '
         Me.EnvoieToolStripMenuItem.Name = "EnvoieToolStripMenuItem"
-        Me.EnvoieToolStripMenuItem.Size = New System.Drawing.Size(188, 26)
+        Me.EnvoieToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.EnvoieToolStripMenuItem.Text = "Envoie ..."
         '
         'AideToolStripMenuItem
         '
         Me.AideToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AProposToolStripMenuItem})
         Me.AideToolStripMenuItem.Name = "AideToolStripMenuItem"
-        Me.AideToolStripMenuItem.Size = New System.Drawing.Size(52, 24)
+        Me.AideToolStripMenuItem.Size = New System.Drawing.Size(43, 20)
         Me.AideToolStripMenuItem.Text = "Aide"
         '
         'AProposToolStripMenuItem
         '
         Me.AProposToolStripMenuItem.Name = "AProposToolStripMenuItem"
-        Me.AProposToolStripMenuItem.Size = New System.Drawing.Size(145, 26)
+        Me.AProposToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
         Me.AProposToolStripMenuItem.Text = "A propos"
         '
         'PictureBox1
         '
         Me.PictureBox1.Image = Global.InterfacePIANODE_USB.My.Resources.Resources.picto
-        Me.PictureBox1.Location = New System.Drawing.Point(476, 32)
-        Me.PictureBox1.Margin = New System.Windows.Forms.Padding(4)
+        Me.PictureBox1.Location = New System.Drawing.Point(357, 26)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(521, 127)
+        Me.PictureBox1.Size = New System.Drawing.Size(391, 103)
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox1.TabIndex = 13
         Me.PictureBox1.TabStop = False
@@ -361,37 +367,52 @@ Partial Class main
         'PB_LogoPierron
         '
         Me.PB_LogoPierron.Image = Global.InterfacePIANODE_USB.My.Resources.Resources.logo_pierron_bleu
-        Me.PB_LogoPierron.Location = New System.Drawing.Point(16, 33)
-        Me.PB_LogoPierron.Margin = New System.Windows.Forms.Padding(4)
+        Me.PB_LogoPierron.Location = New System.Drawing.Point(12, 27)
         Me.PB_LogoPierron.Name = "PB_LogoPierron"
-        Me.PB_LogoPierron.Size = New System.Drawing.Size(400, 127)
+        Me.PB_LogoPierron.Size = New System.Drawing.Size(300, 103)
         Me.PB_LogoPierron.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PB_LogoPierron.TabIndex = 12
         Me.PB_LogoPierron.TabStop = False
         '
-        'LB_modele
+        'StatusStrip1
         '
-        Me.LB_modele.AutoSize = True
-        Me.LB_modele.Location = New System.Drawing.Point(20, 274)
-        Me.LB_modele.Name = "LB_modele"
-        Me.LB_modele.Size = New System.Drawing.Size(158, 17)
-        Me.LB_modele.TabIndex = 17
-        Me.LB_modele.Text = "Aucun produit connecté"
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TSPB_nb_datas, Me.TSSL_donnees, Me.TSSL_modele})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 636)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Size = New System.Drawing.Size(760, 22)
+        Me.StatusStrip1.TabIndex = 18
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'TSPB_nb_datas
+        '
+        Me.TSPB_nb_datas.Name = "TSPB_nb_datas"
+        Me.TSPB_nb_datas.Size = New System.Drawing.Size(100, 16)
+        '
+        'TSSL_donnees
+        '
+        Me.TSSL_donnees.Name = "TSSL_donnees"
+        Me.TSSL_donnees.Size = New System.Drawing.Size(32, 17)
+        Me.TSSL_donnees.Text = "(0/0)"
+        '
+        'TSSL_modele
+        '
+        Me.TSSL_modele.Name = "TSSL_modele"
+        Me.TSSL_modele.Size = New System.Drawing.Size(139, 17)
+        Me.TSSL_modele.Text = "Aucun produit connecté."
         '
         'main
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1013, 810)
-        Me.Controls.Add(Me.LB_modele)
+        Me.ClientSize = New System.Drawing.Size(760, 658)
+        Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.GP_datas)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.PB_LogoPierron)
         Me.Controls.Add(Me.DGV_datas)
         Me.Controls.Add(Me.MenuStrip1)
-        Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.MinimumSize = New System.Drawing.Size(1029, 728)
+        Me.MinimumSize = New System.Drawing.Size(776, 599)
         Me.Name = "main"
         Me.Text = "PIERRON - USB"
         CType(Me.DGV_datas, System.ComponentModel.ISupportInitialize).EndInit()
@@ -405,6 +426,8 @@ Partial Class main
         Me.MenuStrip1.PerformLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PB_LogoPierron, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -431,7 +454,6 @@ Partial Class main
     Friend WithEvents GP_datas As GroupBox
     Friend WithEvents TRB_rate As TrackBar
     Friend WithEvents TRB_max_datas As TrackBar
-    Friend WithEvents PRB_nb_datas As ProgressBar
     Friend WithEvents MenuStrip1 As MenuStrip
     Friend WithEvents FichierToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents QuitterToolStripMenuItem As ToolStripMenuItem
@@ -443,5 +465,12 @@ Partial Class main
     Friend WithEvents EnvoieINITToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EnvoieCALIBREToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EnvoieToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LB_modele As Label
+    Friend WithEvents EditionToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents toolStripSeparator3 As ToolStripSeparator
+    Friend WithEvents CopierTSMenuItem As ToolStripMenuItem
+    Friend WithEvents toolStripSeparator4 As ToolStripSeparator
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents TSSL_modele As ToolStripStatusLabel
+    Friend WithEvents TSPB_nb_datas As ToolStripProgressBar
+    Friend WithEvents TSSL_donnees As ToolStripStatusLabel
 End Class
