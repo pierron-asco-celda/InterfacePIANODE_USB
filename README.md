@@ -1,5 +1,5 @@
 # InterfacePIANODE_USB
-Une interface USB pour PIANODE devices sans PIOANODE
+Une interface USB pour PIANODE devices sans PIANODE
 
 Logiciel Windows pour lecture des capteurs Pierron (http://pierron.fr) de la famille PIANODE.
 
