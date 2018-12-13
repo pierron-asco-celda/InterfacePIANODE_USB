@@ -15,6 +15,6 @@ A partir de https://github.com/fthome/InterfacePIANODE_USB/releases
 
 # Mise à jour
 
-Dés qu'une mise à jour est publier, la mise à jour est automatiquement proposée lors de l'ouverture du logiciel.
+Dés qu'une mise à jour est publiée, elle est automatiquement proposée lors de l'ouverture du logiciel.
 
 
