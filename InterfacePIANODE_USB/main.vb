@@ -26,8 +26,8 @@ Public Class main
             End Try
             SerialPort.BaudRate = CInt(CB_baudrate.Text)
             SerialPort.PortName = CB_port.Text
-            SerialPort.ReadTimeout = 5000
-            SerialPort.WriteTimeout = 500
+            SerialPort.ReadTimeout = 3000
+            SerialPort.WriteTimeout = 3000
             SerialPort.Parity = Parity.None
             SerialPort.StopBits = StopBits.One
             SerialPort.DataBits = 8
@@ -37,6 +37,7 @@ Public Class main
                 is_serial_read = True
                 Th_serial_read = New Thread(AddressOf Serial_read)
                 Th_serial_read.Start()
+                Send_command_by_usb("USB")
             Catch ex As System.UnauthorizedAccessException
                 TSSL_modele.Text = "Erreur connection USB."
                 Return False
@@ -52,7 +53,6 @@ Public Class main
         Dim message As String
         Dim dict As Object
         Dim date_last_mesure As Date
-
         message = ""
         ' Lecture de la première ligne (pas forcement lue entière)
         Try
@@ -71,12 +71,16 @@ Public Class main
                         dict = Json_serialiser.Deserialize(Of Object)(message)
                         Invoke(New Add_DGV_datas_delegate(AddressOf Add_DGV_datas), dict)
                     Catch ex2 As Exception
+                        Console.WriteLine("Error : " + ex2.Message)
                     End Try
                     date_last_mesure = DateAndTime.Now
                 End If
             Catch generatedExceptionName As TimeoutException
+                Console.WriteLine("Timeout Error")
             Catch generatedExceptionName As IO.IOException
+                Console.WriteLine("IO Error")
             Catch ex As UnauthorizedAccessException
+                Console.WriteLine("UnauthorizedAccess Error")
                 Invoke(New Serial_close_delegate(AddressOf Serial_close))
             Catch ex As FormatException
                 Console.WriteLine("Error during json parsing : " + ex.Message)
@@ -166,13 +170,17 @@ Public Class main
 
     ''' <summary>
     '''  Envoie une ligne de text sur le port usb actif sous la forme :
-    '''  "{"ACTION":cmd}"
+    '''  "{"ACTION":cmd, "DATA":data}"
     ''' </summary>
     ''' <param name="cmd"> la commande a envoyer</param>
-    Private Sub Send_command_by_usb(cmd As String)
+    ''' <param name="data"> Optional</param>
+    Private Sub Send_command_by_usb(cmd As String, Optional data As String = "")
         Dim dict As New Dictionary(Of String, String)()
         Dim json As String
         dict.Add("ACTION", cmd)
+        If data IsNot "" Then
+            dict.Add("DATA", data)
+        End If
         json = Json_serialiser.Serialize(dict)
         If SerialPort.IsOpen Then
             Try
@@ -180,9 +188,13 @@ Public Class main
                 SerialPort.WriteLine(json)
                 Console.WriteLine("Envoie ok")
             Catch generatedExceptionName As InvalidOperationException
+                Console.WriteLine("InvalidOperation Error")
             Catch generatedExceptionName As TimeoutException
+                Console.WriteLine("Timeout Error")
             Catch generatedExceptionName As IO.IOException
+                Console.WriteLine("IO Error")
             Catch ex As UnauthorizedAccessException
+                Console.WriteLine("UnauthorizedAccess Error")
                 Invoke(New Serial_close_delegate(AddressOf Serial_close))
             End Try
         End If
@@ -307,7 +319,11 @@ Public Class main
     End Sub
 
     Private Sub EnvoieCALIBREToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EnvoieCALIBREToolStripMenuItem.Click
-        Send_command_by_usb("CALIBRE")
+        Dim data As String
+        data = InputBox("Veuillez saisir la valeur de calibration", "Calibration")
+        If data IsNot "" Then
+            Send_command_by_usb("CALIBRE", data)
+        End If
     End Sub
 
     Private Sub EnvoieToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EnvoieToolStripMenuItem.Click
@@ -324,7 +340,7 @@ Public Class main
 
 
 
-    Private Sub CopierTSMenuItem_Click(sender As Object, e As EventArgs)
+    Private Sub CopierTSMenuItem_Click(sender As Object, e As EventArgs) Handles CopierTSMenuItem.Click
         Dim s As String = ""
         Dim oCurrentCol As DataGridViewColumn    'Get header
         oCurrentCol = DGV_datas.Columns.GetFirstColumn(DataGridViewElementStates.Visible)
@@ -352,5 +368,4 @@ Public Class main
         o.SetText(s)
         Clipboard.SetDataObject(o, True)
     End Sub
-
 End Class
