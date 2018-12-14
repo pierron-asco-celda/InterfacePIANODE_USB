@@ -7,11 +7,11 @@ Remplace l'utilisation du serveur PIANODE.
 
 # Installation
 
-A partir de https://github.com/fthome/InterfacePIANODE_USB/releases
+À partir de https://github.com/fthome/InterfacePIANODE_USB/releases
 
 * Télécharger pianode.zip
 * Décompresser l'archive
-* executer setup.exe ...
+* Exécuter setup.exe ...
 
 # Mise à jour
 
