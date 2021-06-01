@@ -9,8 +9,6 @@ Le logiciel PIANODE pour Windows vous permet la lecture des capteurs Pierron (ht
 
 Logiciel d'acquisition : [PIANODE](https://github.com/pierron-asco-celda/InterfacePIANODE_USB)
 
-Logiciel de décompression : [WINRARx64 Windows 7+](https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-601.exe), [WINRARx32 Windows 7+](https://www.win-rar.com/fileadmin/winrar-versions/winrar/wrar601.exe)
-
 # Installation
 
 1. Télécharger [pianode.zip](https://github.com/pierron-asco-celda/InterfacePIANODE_USB).
@@ -30,6 +28,10 @@ Logiciel de décompression : [WINRARx64 Windows 7+](https://www.win-rar.com/file
 5. L'installation se termine par la fermeture de la fenêtre d'installation. Parcourez ensuite votre menu d'application Windows et cliquez sur "PIANODE".
 
 ![PIANODE-E4](/Img/E4-pianode.png)
+
+# Utilisation 
+
+![PIANODE-E5](/Img/E4-pianode.png)
 
 
 # Mise à jour
