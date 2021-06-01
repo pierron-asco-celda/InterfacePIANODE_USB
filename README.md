@@ -1,6 +1,6 @@
 # Logiciel d'acquisition par port USB PIANODE
 
-![PIANODE-Logo](/details/pianode.png)
+![PIANODE-Logo](/Img/pianode.png)
 
 
 
