@@ -1,14 +1,9 @@
 # Logiciel d'acquisition par port USB PIANODE
 
-![PIANODE-Logo](/Img/pianode.png)
+![PIANODE-Logo](/Img/L-pianode.png)
 
+Le logiciel PIANODE pour windows vous permet la lecture des capteurs Pierron (http://pierron.fr) de la famille PIANODE.
 
-
-
-
-Logiciel Windows pour lecture des capteurs Pierron (http://pierron.fr) de la famille PIANODE.
-
-Remplace l'utilisation du serveur PIANODE.
 
 # Installation
 
