@@ -27,7 +27,7 @@ Logiciel d'acquisition : [PIANODE](https://github.com/pierron-asco-celda/Interfa
 
 5. L'installation se termine par la fermeture de la fenetre d'installation. Parcourz ensuite votre menu d'application Windows et cliquer sur "PIANODE"
 
-![PIANODE-E4](/Img/E3-pianode.png)
+![PIANODE-E4](/Img/E4-pianode.png)
 
 
 # Mise à jour
