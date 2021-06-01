@@ -31,7 +31,7 @@ Logiciel d'acquisition : [PIANODE](https://github.com/pierron-asco-celda/Interfa
 
 # Utilisation 
 
-![PIANODE-E5](/Img/E4-pianode.png)
+![PIANODE-E5](/Img/E5-pianode.png)
 
 
 # Mise à jour
