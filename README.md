@@ -1,6 +1,6 @@
 # Logiciel d'acquisition par port USB "PIANODE"
 
-![PIANODE-Logo](/Img/L-pianode.png)
+![PIANODE-Logo](/img/L-pianode.png)
 
 Le logiciel PIANODE pour Windows vous permet la lecture des capteurs Pierron (http://pierron.fr) de la famille PIANODE.
 
@@ -14,23 +14,23 @@ Logiciel d'acquisition : [PIANODE](https://github.com/pierron-asco-celda/Interfa
 
 2. Décompresser l'archive télécharger.
 
-![PIANODE-E1](/Img/E1-pianode.png)
+![PIANODE-E1](/img/E1-pianode.png)
 
 3. Parcourir le fichier décompresser pour accéder au fichier d'installation "setup.exe".
 
-![PIANODE-E2](/Img/E2-pianode.png)
+![PIANODE-E2](/img/E2-pianode.png)
 
 4. Lors de l'ouverture de l'installateur, une fenêtre s'ouvre : cliquez sur "Installer". 
 
-![PIANODE-E3](/Img/E3-pianode.png)
+![PIANODE-E3](/img/E3-pianode.png)
 
 5. L'installation se termine par la fermeture de la fenêtre d'installation. Parcourez ensuite votre menu d'application Windows et cliquez sur "PIANODE".
 
-![PIANODE-E4](/Img/E4-pianode.png)
+![PIANODE-E4](/img/E4-pianode.png)
 
 # Utilisation 
 
-![PIANODE-E5](/Img/E5-pianode.png)
+![PIANODE-E5](/img/E5-pianode.png)
 
 
 # Mise à jour
