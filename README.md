@@ -6,11 +6,11 @@ Le logiciel PIANODE pour Windows vous permet la lecture des capteurs Pierron (ht
 
 # RESSOURCES À TÉLÉCHARGER :
 
-Logiciel d'acquisition : [PIANODE](https://github.com/pierron-asco-celda/InterfacePIANODE_USB)
+Logiciel d'acquisition : [PIANODE](https://github.com/pierron-asco-celda/PIANODE/releases/latest)
 
 # Installation :
 
-1. Télécharger [pianode.zip](https://github.com/pierron-asco-celda/InterfacePIANODE_USB).
+1. Télécharger [pianode.zip](https://github.com/pierron-asco-celda/PIANODE/releases/latest).
 
 2. Décompresser l'archive télécharger.
 
