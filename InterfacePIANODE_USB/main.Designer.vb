@@ -74,6 +74,10 @@ Partial Class main
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
+        'SerialPort
+        '
+        Me.SerialPort.DtrEnable = True
+        '
         'BtConnect
         '
         Me.BtConnect.Location = New System.Drawing.Point(252, 16)
@@ -288,20 +292,20 @@ Partial Class main
         'toolStripSeparator3
         '
         Me.toolStripSeparator3.Name = "toolStripSeparator3"
-        Me.toolStripSeparator3.Size = New System.Drawing.Size(181, 6)
+        Me.toolStripSeparator3.Size = New System.Drawing.Size(171, 6)
         '
         'CopierTSMenuItem
         '
         Me.CopierTSMenuItem.Image = CType(resources.GetObject("CopierTSMenuItem.Image"), System.Drawing.Image)
         Me.CopierTSMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.CopierTSMenuItem.Name = "CopierTSMenuItem"
-        Me.CopierTSMenuItem.Size = New System.Drawing.Size(184, 26)
+        Me.CopierTSMenuItem.Size = New System.Drawing.Size(174, 22)
         Me.CopierTSMenuItem.Text = "Co&pier les données"
         '
         'toolStripSeparator4
         '
         Me.toolStripSeparator4.Name = "toolStripSeparator4"
-        Me.toolStripSeparator4.Size = New System.Drawing.Size(181, 6)
+        Me.toolStripSeparator4.Size = New System.Drawing.Size(171, 6)
         '
         'DonnéesToolStripMenuItem
         '
