@@ -74,10 +74,6 @@ Partial Class main
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
-        'SerialPort
-        '
-        Me.SerialPort.DtrEnable = True
-        '
         'BtConnect
         '
         Me.BtConnect.Location = New System.Drawing.Point(252, 16)

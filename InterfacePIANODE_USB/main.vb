@@ -32,6 +32,7 @@ Public Class main
             SerialPort.StopBits = StopBits.One
             SerialPort.DataBits = 8
             SerialPort.Handshake = Handshake.None
+            SerialPort.DtrEnable = Not SerialPort.DtrEnable 'Essai une fois sur 2 (True pour Raspberry pi pico)
             Try
                 SerialPort.Open()
                 is_serial_read = True
