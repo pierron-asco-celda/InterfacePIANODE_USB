@@ -37,6 +37,7 @@ Partial Class main
         Me.BT_detect = New System.Windows.Forms.Button()
         Me.DGV_datas = New System.Windows.Forms.DataGridView()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.CB_dtr_rts = New System.Windows.Forms.CheckBox()
         Me.LB_baudrate = New System.Windows.Forms.Label()
         Me.LB_port = New System.Windows.Forms.Label()
         Me.GP_datas = New System.Windows.Forms.GroupBox()
@@ -63,6 +64,7 @@ Partial Class main
         Me.TSPB_nb_datas = New System.Windows.Forms.ToolStripProgressBar()
         Me.TSSL_donnees = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TSSL_modele = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.DGV_datas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GP_datas.SuspendLayout()
@@ -187,6 +189,7 @@ Partial Class main
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.CB_dtr_rts)
         Me.GroupBox1.Controls.Add(Me.LB_baudrate)
         Me.GroupBox1.Controls.Add(Me.LB_port)
         Me.GroupBox1.Controls.Add(Me.CB_port)
@@ -200,6 +203,16 @@ Partial Class main
         Me.GroupBox1.TabIndex = 14
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Port USB"
+        '
+        'CB_dtr_rts
+        '
+        Me.CB_dtr_rts.AutoSize = True
+        Me.CB_dtr_rts.Location = New System.Drawing.Point(159, 53)
+        Me.CB_dtr_rts.Name = "CB_dtr_rts"
+        Me.CB_dtr_rts.Size = New System.Drawing.Size(61, 17)
+        Me.CB_dtr_rts.TabIndex = 11
+        Me.CB_dtr_rts.Text = "Dtr/Rts"
+        Me.CB_dtr_rts.UseVisualStyleBackColor = True
         '
         'LB_baudrate
         '
@@ -473,4 +486,6 @@ Partial Class main
     Friend WithEvents TSSL_modele As ToolStripStatusLabel
     Friend WithEvents TSPB_nb_datas As ToolStripProgressBar
     Friend WithEvents TSSL_donnees As ToolStripStatusLabel
+    Friend WithEvents CB_dtr_rts As CheckBox
+    Friend WithEvents ToolTip1 As ToolTip
 End Class

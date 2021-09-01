@@ -32,7 +32,13 @@ Public Class main
             SerialPort.StopBits = StopBits.One
             SerialPort.DataBits = 8
             SerialPort.Handshake = Handshake.None
-            SerialPort.DtrEnable = Not SerialPort.DtrEnable 'Essai une fois sur 2 (True pour Raspberry pi pico)
+            If CB_dtr_rts.Checked Then
+                SerialPort.RtsEnable = True '(True pour Raspberry pi pico)
+                SerialPort.DtrEnable = True '(True pour Raspberry pi pico)
+            Else
+                SerialPort.RtsEnable = False
+                SerialPort.DtrEnable = False
+            End If
             Try
                 SerialPort.Open()
                 is_serial_read = True
@@ -250,6 +256,17 @@ Public Class main
     Private Sub main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Ouverture de l'application
         Call Serial_detect()
+        Me.ToolTip1.SetToolTip(Me.CB_dtr_rts, "A cocher pour Raspberry pi pico.")
+        Me.ToolTip1.SetToolTip(Me.CB_baudrate, "Vitesse du port (le plus souvent 115200).")
+        Me.ToolTip1.SetToolTip(Me.CB_port, "Choix du port (bouton <Détection> pour rechercher)")
+        Me.ToolTip1.SetToolTip(Me.BT_detect, "Scanne les ports USB...")
+        Me.ToolTip1.SetToolTip(Me.BT_raz, "Efface les données.")
+        Me.ToolTip1.SetToolTip(Me.Bt_disconnect, "Stoppe la connexion à l'appareil.")
+        Me.ToolTip1.SetToolTip(Me.TB_max_values, "Nombre de données maximum affichées (les plus anciennes sont supprimées)")
+        Me.ToolTip1.SetToolTip(Me.TRB_max_datas, "Nombre de données maximum affichées (les plus anciennes sont supprimées)")
+        Me.ToolTip1.SetToolTip(Me.TB_max_rate, "Limite le nombre de données reçues (en secondes entre chaque valeur).")
+        Me.ToolTip1.SetToolTip(Me.TRB_rate, "Limite le nombre de données reçues (en secondes entre chaque valeur).")
+
     End Sub
 
     Private Sub BT_raz_Click(sender As Object, e As EventArgs) Handles BT_raz.Click
@@ -369,4 +386,6 @@ Public Class main
         o.SetText(s)
         Clipboard.SetDataObject(o, True)
     End Sub
+
+
 End Class
